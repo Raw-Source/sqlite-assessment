@@ -1,10 +1,9 @@
+
+using People.Models;
 using System;
+using Xamarin.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace People
 {
@@ -13,15 +12,28 @@ namespace People
     [DesignTimeVisible(true)]
     public partial class MainPage : ContentPage
     {
-        public string Text
-        {
-            get { return textLabel.Text; }
-            set { textLabel.Text = value; }
-        }
-
         public MainPage()
         {
             InitializeComponent();
+            
+        }
+
+        public async void OnNewButtonClicked(object sender, EventArgs args)
+        {
+
+
+            await App.PersonRepo.AddNewPersonAsync(newPerson.Text);
+            StatusMessage.Text = App.PersonRepo.StatusMessage;
+        }
+
+        public async void OnGetButtonClicked(object sender, EventArgs args)
+        {
+            StatusMessage.Text = "";
+
+
+            List < Person > people = await App.PersonRepo.GetAllPeopleAsync();
+          
+            peopleList.ItemsSource = people;
         }
     }
 }
